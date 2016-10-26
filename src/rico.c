@@ -1,12 +1,6 @@
-#include <locale.h>
-#include <ncurses.h>
+#include "rico.h"
 
-typedef struct {
-    char sig[4];
-    bool started;
-} Rico;
-
-bool init(Rico* rico) {
+bool rico_init(Rico* rico) {
     rico->sig[0] = 'R';
     rico->sig[1] = 'i';
     rico->sig[2] = 'c';
@@ -16,7 +10,7 @@ bool init(Rico* rico) {
     return true;
 }
 
-bool start(Rico* rico) {
+bool rico_start(Rico* rico) {
     if (rico->started) return false;
 
     setlocale(LC_ALL, "");
@@ -29,7 +23,7 @@ bool start(Rico* rico) {
     return true;
 }
 
-bool stop(Rico* rico) {
+bool rico_stop(Rico* rico) {
     if (!rico->started) return false;
 
     echo();
@@ -41,7 +35,7 @@ bool stop(Rico* rico) {
     return true;
 }
 
-bool out(Rico* rico, const char* text) {
+bool rico_out(Rico* rico, const char* text) {
     if (!rico->started) return false;
 
     printw(text);
@@ -50,7 +44,7 @@ bool out(Rico* rico, const char* text) {
     return true;
 }
 
-bool outi(Rico* rico, int i) {
+bool rico_outi(Rico* rico, int i) {
     if (!rico->started) return false;
 
     printw("%i", i);
@@ -59,7 +53,7 @@ bool outi(Rico* rico, int i) {
     return true;
 }
 
-int scankey(Rico* rico) {
+int rico_scan(Rico* rico) {
     int key = 0;
 
     if (rico->started) {
@@ -76,22 +70,5 @@ int scankey(Rico* rico) {
     }
 
     return key;
-}
-
-int main() {
-    Rico rico = {0};
-    int key;
-
-    init(&rico);
-    start(&rico);
-
-    out(&rico, "Rico αλφα\n");
-
-    while (key = scankey(&rico)) {
-        outi(&rico, key);
-        out(&rico, " ");
-    }
-
-    stop(&rico);
 }
 
