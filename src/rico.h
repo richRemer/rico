@@ -6,12 +6,12 @@
 
 typedef struct {
     char sig[4];
-    bool started;
+    bool running;
 } Rico;
 
-bool rico_init(Rico* rico);
-bool rico_start(Rico* rico);
-bool rico_stop(Rico* rico);
+Rico* rico_create();
+bool rico_destroy(Rico* rico);
+bool rico_run(Rico* rico);
 bool rico_out(Rico* rico, const char* text);
 bool rico_outi(Rico* rico, int i);
 int rico_scan(Rico* rico);
