@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
 
     rico_out(rico, "Rico αλφα\n");
 
-    while ((key = rico_scan(rico))) {
+    while (false != (key = rico_scan(rico))) {
         rico_outi(rico, key);
         rico_out(rico, " ");
     }
