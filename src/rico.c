@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include "rico.h"
 
-Rico* rico_create() {
-    Rico* rico = malloc(sizeof(Rico));
+Rico rico_create() {
+    Rico rico = malloc(sizeof(Rico));
 
     rico->sig[0] = 'R';
     rico->sig[1] = 'i';
@@ -13,7 +13,7 @@ Rico* rico_create() {
     return rico;
 }
 
-bool rico_run(Rico* rico) {
+bool rico_run(Rico rico) {
     int key;
 
     if (rico->running) return false;
@@ -35,7 +35,7 @@ bool rico_run(Rico* rico) {
     return true;
 }
 
-bool rico_destroy(Rico* rico) {
+bool rico_destroy(Rico rico) {
     if (!rico->running) return false;
 
     echo();
@@ -48,7 +48,7 @@ bool rico_destroy(Rico* rico) {
     return true;
 }
 
-bool rico_out(Rico* rico, const char* text) {
+bool rico_out(Rico rico, const char* text) {
     if (!rico->running) return false;
 
     printw(text);
@@ -57,7 +57,7 @@ bool rico_out(Rico* rico, const char* text) {
     return true;
 }
 
-bool rico_outi(Rico* rico, int i) {
+bool rico_outi(Rico rico, int i) {
     if (!rico->running) return false;
 
     printw("%i", i);
@@ -66,7 +66,7 @@ bool rico_outi(Rico* rico, int i) {
     return true;
 }
 
-int rico_scan(Rico* rico) {
+int rico_scan(Rico rico) {
     int key = 0;
 
     if (rico->running) {
