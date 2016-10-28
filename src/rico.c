@@ -25,7 +25,7 @@ bool rico_run(Rico rico) {
     noecho();
     keypad(stdscr, true);
 
-    rico_out(rico, "Rico αλφα\n");
+    rico_draw(rico);
     rico->running = true;
 
     while (false != (key = rico_scan(rico))) {
@@ -49,6 +49,17 @@ bool rico_destroy(Rico rico) {
 
     rico->running = false;
     free(rico);
+
+    return true;
+}
+
+bool rico_draw(Rico rico) {
+    int x;
+
+    getmaxyx(stdscr, x, x);
+    mvprintw(0, 2, "*untitled*");
+    mvprintw(0, x-9, "│ Rico α");
+    move(1, 1);
 
     return true;
 }
