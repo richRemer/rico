@@ -15,6 +15,7 @@ Rico rico_create() {
 
 bool rico_run(Rico rico) {
     int key;
+    char* name;
 
     if (rico->running) return false;
 
@@ -22,13 +23,17 @@ bool rico_run(Rico rico) {
     initscr();
     cbreak();
     noecho();
+    keypad(stdscr, true);
 
     rico_out(rico, "Rico αλφα\n");
     rico->running = true;
 
     while (false != (key = rico_scan(rico))) {
         rico_outi(rico, key);
-        rico_out(rico, " ");
+        name = malloc(snprintf(NULL, 0, ":%s ", keyname(key)));
+        sprintf(name, ":%s ", keyname(key));
+        rico_out(rico, name);
+        free(name);
     }
 
     rico_destroy(rico);
