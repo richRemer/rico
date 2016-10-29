@@ -24,7 +24,6 @@ bool rico_run(Rico rico) {
     initscr();
     cbreak();
     noecho();
-    keypad(stdscr, true);
 
     rico_draw(rico);
     rico->running = true;
