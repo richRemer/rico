@@ -100,4 +100,3 @@ int rico_scan(Rico rico) {
 
     return key;
 }
-
