@@ -48,7 +48,7 @@ Key readkey() {
 }
 
 bool printkey(Key key) {
-    printw("%llp:(", key.keycode);
+    printw("%016llp:(", key.keycode);
 
     if (key.bytes.byte_2 == 0) {
         printw("%s", keyname(key.bytes.byte_1));
