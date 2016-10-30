@@ -3,6 +3,7 @@
 
 #include <locale.h>
 #include <ncurses.h>
+#include "key.h"
 
 typedef struct rico_t {
     char sig[4];
