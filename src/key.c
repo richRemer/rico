@@ -1,3 +1,4 @@
+#include <ncurses.h>
 #include "key.h"
 
 Key scankey() {

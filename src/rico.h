@@ -1,14 +1,11 @@
 #ifndef RICO_H
 #define RICO_H
 
-#include <locale.h>
-#include <ncurses.h>
-#include "key.h"
+#include <stdbool.h>
 
-typedef struct rico_t {
-    char sig[4];
+typedef struct TRico {
     bool running;
-} rico_t, *Rico;
+} TRico, *Rico;
 
 Rico rico_create();
 bool rico_destroy(Rico rico);

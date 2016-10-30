@@ -1,14 +1,15 @@
 #include <stdlib.h>
+#include <locale.h>
+#include <ncurses.h>
 #include "rico.h"
+#include "key.h"
 
 Rico rico_create() {
-    Rico rico = malloc(sizeof(rico_t));
+    Rico rico = malloc(sizeof(TRico));
 
-    rico->sig[0] = 'R';
-    rico->sig[1] = 'i';
-    rico->sig[2] = 'c';
-    rico->sig[3] = 'o';
-    rico->running = false;
+    if (rico) {
+        rico->running = false;
+    }
 
     return rico;
 }
@@ -95,3 +96,4 @@ int rico_scan(Rico rico) {
 
     return key;
 }
+

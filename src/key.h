@@ -1,8 +1,6 @@
 #ifndef KEY_H
 #define KEY_H
 
-#include <ncurses.h>
-
 typedef struct KeyBytes {
     uint8_t byte_1;
     uint8_t byte_2;
