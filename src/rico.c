@@ -2,7 +2,7 @@
 #include <locale.h>
 #include <ncurses.h>
 #include "rico.h"
-#include "key.h"
+#include "input-loop.h"
 
 Rico rico_create() {
     Rico rico = malloc(sizeof(TRico));
@@ -15,7 +15,8 @@ Rico rico_create() {
 }
 
 bool rico_run(Rico rico) {
-    Key key;
+    thrd_t input;
+    bool success = false;
 
     if (rico->running) return false;
 
@@ -27,13 +28,13 @@ bool rico_run(Rico rico) {
     rico->running = true;
     rico_draw(rico);
 
-    while (0 != (key = readkey()).keycode) {
-        printkey(key);
-        rico_out(rico, " ");
+    if ((input = create_input_loop(rico))) {
+        thrd_join(input, NULL);
+        success = true;
     }
 
     rico_destroy(rico);
-    return true;
+    return success;
 }
 
 bool rico_destroy(Rico rico) {
@@ -76,24 +77,5 @@ bool rico_outi(Rico rico, int i) {
     refresh();
 
     return true;
-}
-
-int rico_scan(Rico rico) {
-    int key = 0;
-
-    if (rico->running) {
-        key = getch();
-
-        if (key == 27) {
-            timeout(0);
-            key = getch();
-            timeout(-1);
-
-            if (key == ERR) key = 27;
-            else key += (1 << 16);
-        }
-    }
-
-    return key;
 }
 
