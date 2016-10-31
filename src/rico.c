@@ -1,8 +1,8 @@
 #include <stdlib.h>
-#include <locale.h>
 #include <ncurses.h>
 #include "rico.h"
 #include "input-loop.h"
+#include "display-loop.h"
 
 Rico rico_create() {
     Rico rico = malloc(sizeof(TRico));
@@ -15,22 +15,25 @@ Rico rico_create() {
 }
 
 bool rico_run(Rico rico) {
-    thrd_t input;
+    thrd_t input, display;
     bool success = false;
 
     if (rico->running) return false;
 
-    setlocale(LC_ALL, "");
     initscr();
-    //cbreak();
-    raw();
-    noecho();
 
     rico->running = true;
-    rico_draw(rico);
+    input = create_input_loop(rico);
+    display = create_display_loop(rico);
 
-    if ((input = create_input_loop(rico))) {
-        thrd_join(input, NULL);
+    if (!input || !display) {
+        rico->running = false;
+    }
+
+    if (input) thrd_join(input, NULL);
+    if (display) thrd_join(display, NULL);
+
+    if (input && display) {
         success = true;
     }
 
@@ -47,35 +50,6 @@ bool rico_destroy(Rico rico) {
 
     rico->running = false;
     free(rico);
-
-    return true;
-}
-
-bool rico_draw(Rico rico) {
-    int x;
-
-    getmaxyx(stdscr, x, x);
-    mvprintw(0, 2, "*untitled*");
-    mvprintw(0, x-9, "│ Rico α");
-    move(1, 1);
-
-    return true;
-}
-
-bool rico_out(Rico rico, const char* text) {
-    if (!rico->running) return false;
-
-    printw(text);
-    refresh();
-
-    return true;
-}
-
-bool rico_outi(Rico rico, int i) {
-    if (!rico->running) return false;
-
-    printw("%i", i);
-    refresh();
 
     return true;
 }

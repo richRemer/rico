@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <locale.h>
 #include <ncurses.h>
 #include "input-loop.h"
 
@@ -11,10 +12,16 @@ thrd_t create_input_loop(Rico rico) {
 int input_loop(Rico rico) {
     Key key;
 
+    setlocale(LC_ALL, "");
+    raw();
+    noecho();
+
     while (rico->running) {
         key = input_read();
 
-        if (key.code == 0x3) break;    // ^C
+        if (key.code == 0x3) {
+            rico->running = false;
+        }
 
         printw("%016llp:", key.code);
         printw("%s", keyname(key.seq.k0));
