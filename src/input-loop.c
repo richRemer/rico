@@ -14,6 +14,8 @@ int input_loop(Rico rico) {
     while (rico->running) {
         key = input_read();
 
+        if (key.code == 0x3) break;    // ^C
+
         printw("%016llp:", key.code);
         printw("%s", keyname(key.seq.k0));
         key.code >>= 8;

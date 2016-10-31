@@ -22,7 +22,8 @@ bool rico_run(Rico rico) {
 
     setlocale(LC_ALL, "");
     initscr();
-    cbreak();
+    //cbreak();
+    raw();
     noecho();
 
     rico->running = true;
