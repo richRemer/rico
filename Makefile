@@ -23,7 +23,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
 	$(CC) $(CFLAGS) $(LIBS) -c $< -o $@
 
 $(TARGET): $(OBJ) | $(BINDIR)
-	$(CC) -o $(BINDIR)/$(TARGET) $(OBJ) $(LIBS)
+	$(CC) -pthread -o $(BINDIR)/$(TARGET) $(OBJ) $(LIBS)
 
 clean:
 	rm -fr $(BINDIR)
