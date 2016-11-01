@@ -1,7 +1,6 @@
 /*
  * Thanks go to John Tsiombikas <nuclear@member.fsf.org> who placed this in the
- * public domain.
- * Main project site: https://github.com/jtsiomb/c11threads
+ * public domain: https://github.com/jtsiomb/c11threads
  */
 
 #ifndef C11THREADS_H_
