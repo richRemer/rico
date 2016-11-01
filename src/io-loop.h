@@ -1,5 +1,5 @@
-#ifndef INPUT_LOOP_H
-#define INPUT_LOOP_H
+#ifndef IO_LOOP_H
+#define IO_LOOP_H
 
 #include "rico.h"
 #include "c11threads.h"
@@ -14,8 +14,14 @@ typedef union Key {
     KeySequence seq;
 } Key;
 
-thrd_t create_input_loop(Rico rico);
-int input_loop(Rico rico);
-Key input_read();
+typedef struct DisplaySize {
+    short rows;
+    short cols;
+} DisplaySize;
+
+thrd_t create_io_loop(Rico rico);
+int io_loop(Rico rico);
+Key key_scan();
+void redraw(DisplaySize sz);
 
 #endif
