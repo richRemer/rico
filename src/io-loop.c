@@ -69,6 +69,12 @@ void redraw(DisplaySize sz) {
     clrtoeol();
     mvprintw(0, 2, "*keyscan*");
     mvprintw(0, sz.cols-9, "| Rico α");
+
+    for (int row = 1; row <= sz.rows; row++) {
+        move(row, 0);
+        clrtoeol();
+    }
+
     move(1, 1);
     refresh();
 }
