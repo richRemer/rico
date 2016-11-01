@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <locale.h>
-#include <ncurses.h>
 #include "rico.h"
 #include "io-loop.h"
 

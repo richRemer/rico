@@ -1,6 +1,7 @@
 #ifndef IO_LOOP_H
 #define IO_LOOP_H
 
+#include <stdint.h>
 #include "rico.h"
 #include "c11threads.h"
 //#include <threads.h>
