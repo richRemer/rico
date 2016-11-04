@@ -12,7 +12,7 @@ thrd_t create_app_loop(Rico rico) {
 
 int app_loop(Rico rico) {
     Event evt, newevt;
-    char* data;
+    char* msg;
     int len;
 
     while (rico->running) {
@@ -22,33 +22,33 @@ int app_loop(Rico rico) {
                 rico->running = false;
                 break;
             case RICO_ERROR:
-                data = malloc(6);
-                strcpy(data, "err\n ");
-                newevt = create_data_event(DISPLAY_PRINT, data);
+                msg = malloc(6);
+                strcpy(msg, "err\n ");
+                newevt = create_print_event(msg);
                 queue_push(rico->display_events, newevt);
                 break;
             case KEY_PRESS:
                 switch (evt->value) {
                     case KEY_CTRL_C:
-                        newevt = create_signal_event(RICO_CLOSE);
+                        newevt = create_close_event();
                         queue_push(rico->app_events, newevt);
                         break;
                     default:
-                        len = snprintf(data, 0, "%16p\n ", (void*)evt->value);
-                        data = malloc(len* sizeof(char));
+                        len = snprintf(msg, 0, "%16p\n ", (void*)evt->value);
+                        msg = malloc(len * sizeof(char));
 
-                        if (data) {
-                            sprintf(data, "%16p\n ", (void*)evt->value);
-                            newevt = create_data_event(DISPLAY_PRINT, data);
+                        if (msg) {
+                            sprintf(msg, "%16p\n ", (void*)evt->value);
+                            newevt = create_print_event(msg);
                             queue_push(rico->display_events, newevt);
                         } else {
-                            newevt = create_value_event(RICO_ERROR, EVENT_NOT_CREATED);
+                            newevt = create_error_event(EVENT_NOT_CREATED);
                             queue_push(rico->app_events, newevt);
                         }
                 }
                 break;
             case DISPLAY_PRINT:
-                newevt = create_value_event(RICO_ERROR, EVENT_TYPE_INVALID);
+                newevt = create_error_event(EVENT_TYPE_INVALID);
                 queue_push(rico->app_events, newevt);
                 break;
             }

@@ -33,14 +33,14 @@ int io_loop(Rico rico) {
                 printw((char*)evt->data);
                 break;
             default:
-                newevt = create_value_event(RICO_ERROR, EVENT_TYPE_INVALID);
+                newevt = create_error_event(EVENT_TYPE_INVALID);
                 queue_push(rico->app_events, newevt);
             }
             destroy_event(evt);
         }
 
         if ((key = key_scan()).code > 0) {
-            evt = create_value_event(KEY_PRESS, key.code);
+            evt = create_keypress_event(key.code);
             queue_push(rico->app_events, evt);
         }
     }

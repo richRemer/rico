@@ -26,12 +26,18 @@ typedef struct TEvent {
     void(*handled)(struct TEvent*);
 } TEvent, *Event;
 
+Event create_event(EventType type, uint64_t value, void* data,
+    void(*handled)(Event));
 Event create_signal_event(EventType type);
 Event create_value_event(EventType type, uint64_t value);
 Event create_data_event(EventType type, void* data);
 Event create_handled_event(EventType type, void(*handled)(Event));
-Event create_event(EventType type, uint64_t value, void* data,
-    void(*handled)(Event));
+Event create_close_event();
+Event create_error_event(RicoError err);
+Event create_keypress_event(uint64_t code);
+Event create_print_event(char* s);
 bool destroy_event(Event evt);
+
+
 
 #endif
