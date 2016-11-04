@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <ncurses.h>
 #include "io-loop.h"
+#include "data.h"
+#include "event.h"
 
 thrd_t create_io_loop(Rico rico) {
     thrd_t thr;
@@ -11,6 +13,7 @@ thrd_t create_io_loop(Rico rico) {
 int io_loop(Rico rico) {
     DisplaySize currsz = {0}, cmpsz;
     Key key;
+    Event evt, newevt;
 
     initscr();
     raw();
@@ -24,21 +27,21 @@ int io_loop(Rico rico) {
             redraw(currsz);
         }
 
+        if ((evt = queue_pull(rico->display_events))) {
+            switch (evt->type) {
+            case DISPLAY_PRINT:
+                printw((char*)evt->data);
+                break;
+            default:
+                newevt = create_value_event(RICO_ERROR, EVENT_TYPE_INVALID);
+                queue_push(rico->app_events, newevt);
+            }
+            destroy_event(evt);
+        }
+
         if ((key = key_scan()).code > 0) {
-            if (key.code == 0x3) {  // ^C
-                rico->running = false;
-            }
-
-            printw("%016llp:", key.code);
-            printw("%s", keyname(key.seq.k0));
-            key.code >>= 8;
-
-            while (key.code > 0) {
-                printw("%s", keyname(key.seq.k0));
-                key.code >>= 8;
-            }
-
-            printw("\n ");
+            evt = create_value_event(KEY_PRESS, key.code);
+            queue_push(rico->app_events, evt);
         }
     }
 
