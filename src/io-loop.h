@@ -3,8 +3,7 @@
 
 #include <stdint.h>
 #include "rico.h"
-#include "c11threads.h"
-//#include <threads.h>
+#include "mt.h"
 
 typedef struct KeySequence {
     uint8_t k0, k1, k2, k3, k4, k5, k6, k7;
