@@ -8,7 +8,7 @@ OBJDIR      = build
 SRC         = $(wildcard $(SRCDIR)/*.c)
 OBJ         = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRC))
 
-.PHONY: default all clean install uninstall
+.PHONY: default all clean debug install uninstall
 
 default: $(TARGET)
 all: default
@@ -24,6 +24,9 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
 
 $(TARGET): $(OBJ) | $(BINDIR)
 	$(CC) -pthread -o $(BINDIR)/$(TARGET) $(OBJ) $(LIBS)
+
+debug: $(OBJ) | $(BINDIR)
+	$(CC) -pthread -o $(BINDIR)/$(TARGET) -g -O0 $(OBJ) $(LIBS)
 
 clean:
 	rm -fr $(BINDIR)
